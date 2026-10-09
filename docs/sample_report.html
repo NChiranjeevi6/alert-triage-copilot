@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Alert Triage Copilot - Report</title>
+<style>
+:root{--bg:#070a10;--panel:#0d121c;--line:#1c2740;--text:#cfe3ff;--dim:#6b7fa3;--cyan:#19e3ff;
+--CRITICAL:#ff2d7a;--HIGH:#ff9f1c;--MEDIUM:#ffd23f;--LOW:#3ddc84}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 "JetBrains Mono","Fira Code",
+"SFMono-Regular",Consolas,"Liberation Mono",monospace;padding:0 0 64px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);padding:36px 0 28px;background:
+linear-gradient(180deg,#0b1424 0,var(--bg) 100%)}
+pre.banner{margin:0 0 14px;color:var(--cyan);font-size:11px;line-height:1.15;overflow-x:auto}
+h1{margin:0;font-size:26px;letter-spacing:.02em}
+.sub{color:var(--dim);margin-top:6px}
+.prompt{color:var(--cyan)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0 8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);padding:12px 14px}
+.stat b{display:block;font-size:30px;color:var(--c);line-height:1.1}
+.stat span{color:var(--dim);font-size:12px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 14px}
+button{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:6px 12px;
+font:inherit;cursor:pointer}
+button[aria-pressed=true]{border-color:var(--cyan);color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+details{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:12px 14px;display:grid;
+grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center}
+summary::-webkit-details-marker{display:none}
+.tag{color:#07090f;background:var(--c);padding:1px 8px;font-weight:700}
+.title{font-weight:600}.meta{color:var(--dim);font-size:12px;grid-column:2/4}
+.bar{color:var(--c);letter-spacing:-1px;white-space:nowrap}.bar i{color:var(--line);font-style:normal}
+.body{padding:4px 16px 18px;border-top:1px solid var(--line)}
+.body h3{margin:18px 0 8px;font-size:13px;color:var(--cyan);font-weight:600}
+.body p{margin:6px 0}.summary-line{border-left:2px solid var(--c);padding-left:10px;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;display:block;overflow-x:auto}
+th,td{text-align:left;padding:5px 10px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-weight:500}
+.pts{color:var(--HIGH)}.pts.neg{color:var(--LOW)}
+.chips span{display:inline-block;border:1px solid var(--line);padding:0 8px;margin:0 6px 6px 0;color:var(--cyan)}
+ul{margin:0;padding-left:20px}li{margin:3px 0}
+footer{color:var(--dim);font-size:12px;margin-top:34px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:640px){summary{grid-template-columns:1fr}.meta{grid-column:1}}
+</style></head><body>
+<header><div class="wrap"><pre class="banner" aria-hidden="true">
+  ___  __    ____ ____ ______   ______ ____  _____    _____  ____
+ / _ |/ /   / __// __//_  __/  /_  __// __ \/  _/ |  / / _ |/ __/
+/ __ / /__ / _/ / /_   / /      / /  / /_/ // /  / /_/ / __ / _/
+/_/ |_/____//___/\__/  /_/      /_/   \_/\_\/___/ \____/_/ |_/___/
+</pre>
+<h1>Alert Triage Copilot</h1>
+<div class="sub"><span class="prompt">$</span> triage analyze | 8 alerts | mock intel |
+2026-10-08 15:32 UTC</div></div></header>
+<main class="wrap"><div class="stats"><div class="stat" style="--c:var(--CRITICAL)"><b>2</b><span>critical</span></div><div class="stat" style="--c:var(--HIGH)"><b>2</b><span>high</span></div><div class="stat" style="--c:var(--MEDIUM)"><b>1</b><span>medium</span></div><div class="stat" style="--c:var(--LOW)"><b>3</b><span>low</span></div><div class="stat" style="--c:var(--cyan)"><b>80</b><span>est. analyst minutes saved</span></div></div>
+<div class="filters"><button aria-pressed="true" data-f="ALL">all</button><button aria-pressed="false" data-f="CRITICAL">critical</button><button aria-pressed="false" data-f="HIGH">high</button><button aria-pressed="false" data-f="MEDIUM">medium</button><button aria-pressed="false" data-f="LOW">low</button></div>
+<details style="--c:var(--CRITICAL)" data-v="CRITICAL">
+<summary><span class="tag">P1 CRITICAL</span><span class="title">Outbound connection to known C2 infrastructure</span>
+<span class="bar" aria-label="score 100 of 100">████████████████████<i></i> 100</span><span class="meta">A-1001 | FIN-DB-01 | svc_backup | 2026-10-08T02:14:09Z | SLA 15 min</span></summary>
+<div class="body"><p class="summary-line">P1 CRITICAL (100/100): &#x27;Outbound connection to known C2 infrastructure&#x27; on FIN-DB-01 by svc_backup. Top factor: SIEM rated this alert high.</p>
+<h3>$ description</h3><p>Server initiated beaconing-style HTTPS connections every 60s to an external host.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>ip</td><td>203.0.113.45</td><td>mock</td><td>14/90 engines, abuse 97% (412 reports), RU, Example Bulletproof Hosting</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+40</td><td>Rule severity</td><td>SIEM rated this alert high</td></tr><tr><td class='pts'>+24</td><td>IP reputation</td><td>203.0.113.45 abuse confidence 97% (412 reports)</td></tr><tr><td class='pts'>+30</td><td>Malicious detections</td><td>203.0.113.45 flagged by 14/90 engines</td></tr><tr><td class='pts'>+12</td><td>Asset criticality</td><td>FIN-DB-01 is critical value</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1071</td></tr><tr><td class='pts'>+5</td><td>Event volume</td><td>120 events</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1071</span></div>
+<h3>$ next-actions</h3><ul><li>Escalate to L2/IR lead now and open an incident ticket</li><li>Block 203.0.113.45 at the perimeter and hunt for other internal hosts that contacted it</li></ul></div></details>
+<details style="--c:var(--CRITICAL)" data-v="CRITICAL">
+<summary><span class="tag">P1 CRITICAL</span><span class="title">Suspicious PowerShell encoded command</span>
+<span class="bar" aria-label="score 82 of 100">████████████████<i>░░░░</i> 82</span><span class="meta">A-1002 | WS-HR-17 | jdoe | 2026-10-08T03:02:51Z | SLA 15 min</span></summary>
+<div class="body"><p class="summary-line">P1 CRITICAL (82/100): &#x27;Suspicious PowerShell encoded command&#x27; on WS-HR-17 by jdoe. Top factor: SIEM rated this alert high.</p>
+<h3>$ description</h3><p>powershell.exe -enc spawned from winword.exe; dropped file matches the hash shown (EICAR test file used for demo).</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>hash</td><td>275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f</td><td>mock</td><td>66/72 engines, EICAR test file</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+40</td><td>Rule severity</td><td>SIEM rated this alert high</td></tr><tr><td class='pts'>+30</td><td>Malicious detections</td><td>275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f flagged by 66/72 engines</td></tr><tr><td class='pts'>+7</td><td>Asset criticality</td><td>WS-HR-17 is high value</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1059</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1059</span></div>
+<h3>$ next-actions</h3><ul><li>Escalate to L2/IR lead now and open an incident ticket</li><li>Isolate WS-HR-17 via EDR; collect the file and hunt hash 275a021bbfb6489e... fleet-wide</li></ul></div></details>
+<details style="--c:var(--HIGH)" data-v="HIGH">
+<summary><span class="tag">P2 HIGH</span><span class="title">Multiple failed logins (possible brute force)</span>
+<span class="bar" aria-label="score 65 of 100">█████████████<i>░░░░░░░</i> 65</span><span class="meta">A-1004 | VPN-GW-01 | admin | 2026-10-08T05:11:33Z | SLA 1 hour</span></summary>
+<div class="body"><p class="summary-line">P2 HIGH (65/100): &#x27;Multiple failed logins (possible brute force)&#x27; on VPN-GW-01 by admin. Top factor: SIEM rated this alert medium.</p>
+<h3>$ description</h3><p>340 failed VPN authentications in 10 minutes from one external IP.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>ip</td><td>198.51.100.23</td><td>mock</td><td>3/90 engines, abuse 58% (31 reports), NL, Example VPS Provider</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+25</td><td>Rule severity</td><td>SIEM rated this alert medium</td></tr><tr><td class='pts'>+14</td><td>IP reputation</td><td>198.51.100.23 abuse confidence 58% (31 reports)</td></tr><tr><td class='pts'>+9</td><td>Malicious detections</td><td>198.51.100.23 flagged by 3/90 engines</td></tr><tr><td class='pts'>+7</td><td>Asset criticality</td><td>VPN-GW-01 is high value</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1110</td></tr><tr><td class='pts'>+5</td><td>Event volume</td><td>340 events</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1110</span></div>
+<h3>$ next-actions</h3><ul><li>Block 198.51.100.23 at the perimeter and hunt for other internal hosts that contacted it</li><li>Review auth logs for a successful login after the failures; enforce MFA / lockout</li></ul></div></details>
+<details style="--c:var(--HIGH)" data-v="HIGH">
+<summary><span class="tag">P2 HIGH</span><span class="title">User clicked phishing URL</span>
+<span class="bar" aria-label="score 63 of 100">████████████<i>░░░░░░░░</i> 63</span><span class="meta">A-1003 | WS-FIN-03 | asmith | 2026-10-08T04:40:20Z | SLA 1 hour</span></summary>
+<div class="body"><p class="summary-line">P2 HIGH (63/100): &#x27;User clicked phishing URL&#x27; on WS-FIN-03 by asmith. Top factor: login-micros0ft-secure.example flagged by 18/90 engines.</p>
+<h3>$ description</h3><p>Proxy log shows click-through from an email titled &#x27;Password expires today&#x27;.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>domain</td><td>login-micros0ft-secure.example</td><td>mock</td><td>18/90 engines, newly registered, lookalike</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+25</td><td>Rule severity</td><td>SIEM rated this alert medium</td></tr><tr><td class='pts'>+30</td><td>Malicious detections</td><td>login-micros0ft-secure.example flagged by 18/90 engines</td></tr><tr><td class='pts'>+3</td><td>Asset criticality</td><td>WS-FIN-03 is medium value</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1566</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1566</span></div>
+<h3>$ next-actions</h3><ul><li>Sinkhole/block login-micros0ft-secure.example in DNS and proxy; search proxy logs for other users who visited it</li><li>Check whether asmith entered credentials; force a password reset if so</li></ul></div></details>
+<details style="--c:var(--MEDIUM)" data-v="MEDIUM">
+<summary><span class="tag">P3 MEDIUM</span><span class="title">DNS query to newly registered domain</span>
+<span class="bar" aria-label="score 48 of 100">█████████<i>░░░░░░░░░░░</i> 48</span><span class="meta">A-1006 | WS-DEV-22 | rkumar | 2026-10-08T07:03:12Z | SLA 4 hours</span></summary>
+<div class="body"><p class="summary-line">P3 MEDIUM (48/100): &#x27;DNS query to newly registered domain&#x27; on WS-DEV-22 by rkumar. Top factor: SIEM rated this alert medium.</p>
+<h3>$ description</h3><p>Workstation resolved a domain registered 3 days ago.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>domain</td><td>cdn.updates-check.example</td><td>mock</td><td>6/90 engines, registered 3 days ago</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+25</td><td>Rule severity</td><td>SIEM rated this alert medium</td></tr><tr><td class='pts'>+18</td><td>Malicious detections</td><td>cdn.updates-check.example flagged by 6/90 engines</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1071</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1071</span></div>
+<h3>$ next-actions</h3><ul><li>Sinkhole/block cdn.updates-check.example in DNS and proxy; search proxy logs for other users who visited it</li><li>Check whether rkumar entered credentials; force a password reset if so</li></ul></div></details>
+<details style="--c:var(--LOW)" data-v="LOW">
+<summary><span class="tag">P4 LOW</span><span class="title">Internal port scan detected</span>
+<span class="bar" aria-label="score 13 of 100">██<i>░░░░░░░░░░░░░░░░░░</i> 13</span><span class="meta">A-1008 | SCANNER-01 | 2026-10-08T09:15:02Z | SLA 24 hours</span></summary>
+<div class="body"><p class="summary-line">P4 LOW (13/100): &#x27;Internal port scan detected&#x27; on SCANNER-01. Top factor: SIEM rated this alert low.</p>
+<h3>$ description</h3><p>Authorised vulnerability scanner sweep. &lt;script&gt;alert(&#x27;xss-test&#x27;)&lt;/script&gt; (payload kept to prove the report escapes untrusted SIEM text)</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td colspan=4>No external indicators (internal-only alert)</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+10</td><td>Rule severity</td><td>SIEM rated this alert low</td></tr><tr><td class='pts'>+3</td><td>Event volume</td><td>15 events</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>none mapped</span></div>
+<h3>$ next-actions</h3><ul><li>Document the reasoning and close as benign / tune the rule if it recurs</li></ul></div></details>
+<details style="--c:var(--LOW)" data-v="LOW">
+<summary><span class="tag">P4 LOW</span><span class="title">Admin login from new country</span>
+<span class="bar" aria-label="score 8 of 100">█<i>░░░░░░░░░░░░░░░░░░░</i> 8</span><span class="meta">A-1005 | AD-DC-02 | admin | 2026-10-08T06:25:00Z | SLA 24 hours</span></summary>
+<div class="body"><p class="summary-line">P4 LOW (8/100): &#x27;Admin login from new country&#x27; on AD-DC-02 by admin. Top factor: SIEM rated this alert low.</p>
+<h3>$ description</h3><p>First-ever login for this account from Germany; MFA satisfied.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>ip</td><td>192.0.2.77</td><td>mock</td><td>0/90 engines, DE, Example Telecom</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+10</td><td>Rule severity</td><td>SIEM rated this alert low</td></tr><tr><td class='pts'>+3</td><td>Asset criticality</td><td>AD-DC-02 is medium value</td></tr><tr><td class='pts'>+5</td><td>ATT&amp;CK technique</td><td>high-impact technique(s): T1078</td></tr><tr><td class='pts neg'>-10</td><td>All IOCs clean</td><td>no reputation hits on any enriched indicator</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>T1078</span></div>
+<h3>$ next-actions</h3><ul><li>Document the reasoning and close as benign / tune the rule if it recurs</li></ul></div></details>
+<details style="--c:var(--LOW)" data-v="LOW">
+<summary><span class="tag">P4 LOW</span><span class="title">Software update check</span>
+<span class="bar" aria-label="score 0 of 100"><i>░░░░░░░░░░░░░░░░░░░░</i> 0</span><span class="meta">A-1007 | WS-DEV-05 | priya | 2026-10-08T08:30:44Z | SLA 24 hours</span></summary>
+<div class="body"><p class="summary-line">P4 LOW (0/100): &#x27;Software update check&#x27; on WS-DEV-05 by priya. Top factor: SIEM rated this alert low.</p>
+<h3>$ description</h3><p>Routine update check to a well-known developer platform.</p>
+<h3>$ indicators</h3><table><tr><th>type</th><th>value</th><th>source</th><th>intel</th></tr><tr><td>domain</td><td>github.com</td><td>mock</td><td>0/90 engines, GitHub, Inc.</td></tr><tr><td>hash</td><td>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td><td>mock</td><td>0/72 engines, empty file</td></tr></table>
+<h3>$ score --explain</h3><table><tr><th>pts</th><th>factor</th><th>reason</th></tr><tr><td class='pts'>+10</td><td>Rule severity</td><td>SIEM rated this alert low</td></tr><tr><td class='pts neg'>-10</td><td>All IOCs clean</td><td>no reputation hits on any enriched indicator</td></tr></table>
+<h3>$ mitre</h3><div class="chips"><span>none mapped</span></div>
+<h3>$ next-actions</h3><ul><li>Document the reasoning and close as benign / tune the rule if it recurs</li></ul></div></details>
+<footer>Scores are explainable: open any alert and run <code>score --explain</code> to see every point.
+Demo data is synthetic. Est. time saved assumes 10 min of manual enrichment per alert.</footer>
+</main><script>document.querySelectorAll('button[data-f]').forEach(b=>b.onclick=()=>{document.querySelectorAll('button[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));document.querySelectorAll('details[data-v]').forEach(d=>d.hidden=b.dataset.f!=='ALL'&&d.dataset.v!==b.dataset.f)})</script></body></html>
